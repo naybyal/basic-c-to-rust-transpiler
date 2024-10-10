@@ -4,3 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+pest = "2.4.0"  # Updated to the latest pest version
+pest_derive = "2.4.0"
+syn = { version = "2.0", features = ["full"] }
+quote = "1.0"
+proc-macro2 = "1.0"  # Required for working with procedural macros
+

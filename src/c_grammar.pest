@@ -1,0 +1,29 @@
+WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
+ident = { ASCII_ALPHA+ }
+number = { ASCII_DIGIT+ }
+
+program = { SOI ~ function* ~ EOI }
+function = { return_type ~ ident ~ "(" ~ parameter_list? ~ ")" ~ "{" ~ statement* ~ "}" }
+return_type = { "int" | "void" | "float" | "char" | "double" }
+parameter_list = { (parameter ~ ("," ~ parameter)*)? }
+parameter = { type_specifier ~ ident }
+type_specifier = { "int" | "void" | "float" | "char" | "double" }
+
+statement = { return_statement | declaration | assignment | if_statement | while_statement | for_statement | expression_statement }
+return_statement = { "return" ~ expression? ~ ";" }
+declaration = { type_specifier ~ ident ~ ("," ~ ident)* ~ ";" }
+assignment = { ident ~ "=" ~ expression ~ ";" }
+if_statement = { "if" ~ "(" ~ expression ~ ")" ~ statement ~ ("else" ~ statement)? }
+while_statement = { "while" ~ "(" ~ expression ~ ")" ~ statement }
+for_statement = { "for" ~ "(" ~ (declaration | assignment | expression)? ~ ";" ~ expression? ~ ";" ~ expression? ~ ")" ~ statement }
+expression_statement = { expression ~ ";" }
+
+expression = _{ binary_expression | unary_expression | function_call | primary_expression }
+binary_expression = { primary_expression ~ binary_op ~ primary_expression }
+unary_expression = { unary_op ~ primary_expression }
+function_call = { ident ~ "(" ~ (expression ~ ("," ~ expression)*)? ~ ")" }
+primary_expression = { ident | number | "(" ~ expression ~ ")" | array_access }
+array_access = { ident ~ "[" ~ expression ~ "]" }
+
+unary_op = { "+" | "-" | "!" | "~" }
+binary_op = { "+" | "-" | "*" | "/" | "%" | "&&" | "||" | "<" | ">" | "<=" | ">=" | "==" | "!=" }
